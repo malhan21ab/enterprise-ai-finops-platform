@@ -2,11 +2,13 @@ FROM node:22-alpine
 
 WORKDIR /app
 
-COPY package*.json .
+COPY package*.json ./
 RUN npm install
 
 COPY . .
 
-EXPOSE 5173
+RUN npm run build
 
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+EXPOSE 8080
+
+CMD sh -c "npm run preview -- --host 0.0.0.0 --port ${PORT:-8080}"
